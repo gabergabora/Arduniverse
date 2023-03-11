@@ -1,0 +1,75 @@
+<%- include("../../layout/navbar") -%>
+
+<div class="cart">
+    <div class="container">
+        <% if(user.cart.length > 0){%>
+            <p class="title"  data-aos="fade-up">Shopping Cart</p>
+        <%} else {%>
+            <p class="title"  data-aos="fade-up">Shopping cart is empty</p>
+        <%} %>
+        <% if(user.cart.length > 0) {%>
+        <table class="table table-striped" data-aos="fade-down">
+            <tbody>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Delete</th>
+                </tr>
+
+                <% for (let i = 0; i < user.cart.length; i++) {%>
+                    <tr data-aos="fade-down" data-aos-duration="<%= i *100%>">
+                        <td><%= i+1%></td>
+                        <td><img src="/upload/images/<%= user.cart[i].image%>" alt="cart image"></td>
+                        <td><%= user.cart[i].name%></td>
+                        <td><span>$</span><%= user.cart[i].price%></td>
+                        <td><%= user.cart[i].qty%></td>
+                        <td id="price">$<%= user.cart[i].qty * user.cart[i].price%></td>
+<form action="/cart/delete/<%= user.cart[i].id%>?_method=PUT" method="post">
+    <td><button class="btn btn-danger"><ion-icon name="trash-outline"></ion-icon></button></td>
+</form>
+                    </tr>
+                <%} %>
+                <tr>
+                    <th class="total" id="total_td" colspan="7"></th>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+            <button class="submit-btn hvr-radial-out" data-aos="slide-right" onclick="openBill()">Submit Order</button>
+        <%}%>
+    </div>
+</div>
+
+<script>
+    var total = document.querySelectorAll("#price")
+    var array = []
+
+    for (let index = 0; index < total.length; index++) {
+        const priceValue = (total[index].innerHTML).replace('$', '')
+      var element = array.push(Number(priceValue));
+
+    }
+
+    console.log(array.reduce((a, b) => a + b,))
+    document.getElementById("total_td").innerHTML = "Total price : $" + array.reduce((a, b) => a + b,).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  </script>
+
+  <script>
+    function openBill() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Bill',
+            html: '<form action="/order/new" method="POST"><p style="font-size: 15px">Name: <%= user.name%></p><p style="font-size: 15px" id="total"></p><p style="font-size: 15px">Phone number: <%= user.phone%></p><p style="font-size: 15px">Email: <%= user.email%></p><p style="font-size: 15px">You can change your information from profile page</p><br><br><button class="btn btn-success">Confirm Order</button></form>',
+            confirmButtonText: 'Cancel',
+        })
+
+        document.getElementById("total").innerHTML = document.getElementById("total_td").innerHTML
+    }
+  </script>
+
+<%- include("../../layout/footer") -%>

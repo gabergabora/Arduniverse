@@ -1,0 +1,126 @@
+<%- include("../../layout/navbar") -%>
+
+<% if(err.length > 0){%>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "User not found",
+        })
+    </script>
+<%} %>
+        
+        <br>
+        <p class="page-title-general">Explore</p>
+        <form class="explore-search" autocomplete="off" action="/explore/search" method="post">
+            <div class="autocomplete" style="width:300px;">
+              <input id="myInput" type="text" name="username" placeholder="Username">
+            </div>
+            <button>Search</button>
+          </form>
+          <br>
+<div class="explore">
+    <% getUsers.forEach( data => {%>
+        <div class="user-card" onclick="window.location.href='/profile/get/<%= data.username%>'">
+            <% if(data.profileImage == 'none'){%>
+                <img src="/images/none.png" alt="image">
+            <%} else {%>
+                <img src="/upload/images/<%= data.profileImage%>" alt="image">
+                <%}%>
+                <div class="info-text">
+                    <p><%= data.name%></p>
+                    <p><%= data.username%></p>
+                </div>
+                <div class="status">
+                    <div class="grid">
+                        <p class="underline"><%= data.followers.length%></p>
+                        <p>Followers</p>
+                    </div>
+                    <div class="grid">
+                        <p class="underline"><%= data.posts.length%></p>
+                        <p>Posts</p>
+                    </div>
+                    <div class="grid">
+                        <p class="underline"><%= data.following.length%></p>
+                        <p>Following</p>
+                    </div>
+                </div>
+        </div>
+    <%}) %>
+</div>
+        <br>
+        <br>
+
+        <script>
+            function autocomplete(inp, arr) {
+              var currentFocus;
+              inp.addEventListener("input", function(e) {
+                  var a, b, i, val = this.value;
+                  closeAllLists();
+                  if (!val) { return false;}
+                  currentFocus = -1;
+                  a = document.createElement("DIV");
+                  a.setAttribute("id", this.id + "autocomplete-list");
+                  a.setAttribute("class", "autocomplete-items");
+                  this.parentNode.appendChild(a);
+                  for (i = 0; i < arr.length; i++) {
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                      b = document.createElement("DIV");
+                      b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                      b.innerHTML += arr[i].substr(val.length);
+                      b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                      b.addEventListener("click", function(e) {
+                          inp.value = this.getElementsByTagName("input")[0].value;
+                          closeAllLists();
+                      });
+                      a.appendChild(b);
+                    }
+                  }
+              });
+              inp.addEventListener("keydown", function(e) {
+                  var x = document.getElementById(this.id + "autocomplete-list");
+                  if (x) x = x.getElementsByTagName("div");
+                  if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                  } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                  } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                      if (x) x[currentFocus].click();
+                    }
+                  }
+              });
+              function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (x.length - 1);
+                x[currentFocus].classList.add("autocomplete-active");
+              }
+              function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                  x[i].classList.remove("autocomplete-active");
+                }
+              }
+              function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                  if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                  }
+                }
+              }
+              document.addEventListener("click", function (e) {
+                  closeAllLists(e.target);
+              });
+            }
+            
+            var users = "<%= username%>".split`,`
+            var usersAutoComplate = users
+            
+            autocomplete(document.getElementById("myInput"), usersAutoComplate);
+            </script>
+
+<%- include("../../layout/footer") -%>

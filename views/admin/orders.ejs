@@ -1,0 +1,65 @@
+<%- include("../layout/admin-navbar") -%>
+
+<% if(accept.length> 0){%>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Order Accepted',
+            text: 'Order successfully accepted you can check it in accepted orders page'
+        })
+    </script>
+<%} %>
+
+<% if(reject.length> 0){%>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Order Rejected',
+            text: 'Order successfully rejected you can check it in rejected orders page'
+        })
+    </script>
+<%} %>
+
+    <div class="admin-orders">
+        <p class="title">
+            <%= title%>
+        </p>
+        <div class="orders-controls">
+            <button class="new" onclick="window.location.href ='/admin/orders'">New Orders</button>
+            <button class="accept" onclick="window.location.href ='/admin/orders/accepted'">Accepted Orders</button>
+            <button class="reject" onclick="window.location.href ='/admin/orders/rejected'">Rejected Orders</button>
+            <button class="history" onclick="window.location.href ='/admin/orders/history'">Orders History</button>
+        </div>
+
+            <div class="cards">
+                <% orders.forEach(data=> {%>
+                    <div class="card-order" onclick="window.location.href='/admin/order/get/<%= data.id%>'">
+                        <% if(title == "Orders History"){%>
+                            <% if(data.isReview == true){%>
+                                <span class="bg-primary">In Review</span>
+                            <%} %>
+
+                            <% if(data.isAccept == true){%>
+                                <span class="bg-success">Accepted</span>
+                            <%} %>
+
+                            <% if(data.isReject == true){%>
+                                <span class="bg-danger">Rejected</span>
+                            <%} %>
+                        <%} %>
+                        <div class="card-content">
+                            <p class="icon">
+                                <ion-icon name="folder"></ion-icon>
+                            </p>
+                            <div class="card-des">
+                                <p><%= data.name%></p>
+                                <p><%= data.Date%></p>
+                                <p><%= data.phone%></p>
+                            </div>
+                        </div>
+                    </div>
+                    <%}) %>
+            </div>
+    </div>
+
+    <%- include("../layout/footer") -%>

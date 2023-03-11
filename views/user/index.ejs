@@ -1,0 +1,55 @@
+<%- include("../layout/navbar") -%>
+
+<% if(activeSuc.length > 0) {%>
+    <script>
+        Swal.fire(
+            'Your account has been activated',
+            'Try again',
+            'success'
+        )
+    </script>
+<%}%>
+
+<% if(login_require.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'info',
+            title: 'Login require',
+            html: '<p>You must be login to buy product</p><br><br><a class="btn btn-primary" href="/api/login">Login</a>  <a class="btn btn-warning" href="/api/register">Register</a>'
+        })
+    </script>
+<%}%>
+
+<% if(search_err.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'error',
+            title: 'User not found',
+        })
+    </script>
+<%}%>
+<br>
+<p class="page-title-general">Home</p>
+<div class="profile-posts project-main conatiner">
+    <% project.forEach(data=> {%>
+        <div id="items" class="card text-black" onclick="window.location.href='/projects/get/<%= data.id%>'">
+            <img class="card-img" src="/upload/images/<%= data.projectImage%>" alt="Card image">
+            <div class="status">
+                <p class="likes"><ion-icon class="icon" name="heart"></ion-icon> <%= data.likes.length%></p>
+            </div>
+            <div class="card-img-overlay">
+                <h5 class="card-title">
+                    <%= data.title%>
+                </h5>
+                <p class="card-text card-des">
+                    <%= data.des%>
+                </p>
+                <p class="card-text">
+                    <%= data.Date%>
+                </p>
+            </div>
+        </div>
+        <%}) %>
+</div>
+
+<%- include("../layout/footer") -%>

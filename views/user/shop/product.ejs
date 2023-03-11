@@ -1,0 +1,70 @@
+<%- include("../../layout/navbar") -%>
+
+<% if(login_require.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'error',
+            title: 'Login require',
+            html: '<p>You must be login to buy product</p><br><br><a class="btn btn-primary" href="/api/login">Login</a>  <a class="btn btn-warning" href="/api/register">Register</a>'
+        })
+    </script>
+<%}%>
+
+<% if(cart_err.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'error',
+            title: 'Product already added',
+            text: 'This product is already in your cart'
+        })
+    </script>
+<%}%>
+
+<% if(qty_err.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'error',
+            title: 'Quantity Error',
+            text: 'Quantity must be 1 or more'
+        })
+    </script>
+<%}%>
+
+<% if(cart_suc.length > 0) {%>
+    <script>
+        Swal.fire({
+            icon:'success',
+            title: 'Product Added',
+            text: 'Product successfully added to your cart'
+        })
+    </script>
+<%}%>
+
+<div class="product">
+    <div class="product-info">
+        <p class="title"><%= product.name%></p>
+        <div class="product-des">
+            <img src="/upload/images/<%= product.image%>" alt="product image">
+            
+            <p class="des" id="des"><%= product.des%></p>
+            <br>
+            <button class="hvr-radial-out" onclick="openQty()"><ion-icon class="icon" name="cart"></ion-icon> Add to cart - $<%= product.price%></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openQty() {
+        Swal.fire({
+            icon: "info",
+            title: "Enter the quantity",
+            html: '<form action="/cart/add/<%= product.id%>?_method=PUT" method="post"><input type="number" name="qty" value="1" min="1" required><br><br><button class="btn btn-success">Add to cart</button></form>'
+        })
+    }
+
+    var des = document.getElementById("des")
+    var str = des.innerHTML.split("\n").join("<br>")
+    des.innerHTML = str
+</script>
+
+<%- include("../../layout/footer") -%>

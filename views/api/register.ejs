@@ -1,0 +1,41 @@
+<%- include("../layout/navbar") -%>
+
+<% if(faild.length > 0) {%>
+    <script>
+        Swal.fire(
+            'This email has already been used',
+            'Try again',
+            'error'
+        )
+    </script>
+<%}%>
+
+<% if(faildUserName.length > 0) {%>
+    <script>
+        Swal.fire(
+            'This username has already been used',
+            'Try again',
+            'error'
+        )
+    </script>
+<%}%>
+
+    <div class="register">
+        <div class="panel">
+            <p class="title">Register</p>
+            <br>
+            <form action="/api/register" method="post">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="username" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="number" name="phone" placeholder="Phone Number" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <br>
+                <br>
+                <br>
+                <button>Submit</button>
+                <br>
+            </form>
+        </div>
+    </div>
+    <%- include("../layout/footer") -%>

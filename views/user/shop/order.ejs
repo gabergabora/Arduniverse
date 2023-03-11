@@ -1,0 +1,67 @@
+<%- include("../../layout/navbar") -%>
+
+    <div class="order">
+        <div class="container">
+            <p class="title" data-aos="fade-up">Order Information</p>
+            <div class="info">
+                <p>Name: <%= order.name%></p>
+                <p>Phone number: <%= order.phone%></p>
+                <p>Email: <%= order.email%></p>
+                <p>Date: <%= order.Date%></p>
+
+            </div>
+            <table class="table table-striped" data-aos="fade-down">
+                <tbody>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+
+                    <% for (let i=0; i < order.order.length; i++) {%>
+                        <tr data-aos="fade-down" data-aos-duration="<%= i *100%>">
+                            <td>
+                                <%= i+1%>
+                            </td>
+                            <td><img src="/upload/images/<%= order.order[i].image%>" alt="cart image"></td>
+                            <td>
+                                <%= order.order[i].name%>
+                            </td>
+                            <td><span>$</span>
+                                <%= order.order[i].price%>
+                            </td>
+                            <td>
+                                <%= order.order[i].qty%>
+                            </td>
+                            <td id="price">$<%= order.order[i].qty * order.order[i].price%>
+                            </td>
+                        </tr>
+                        <%} %>
+                            <tr>
+                                <th class="total" id="total_td" colspan="7"></th>
+                            </tr>
+                </tbody>
+            </table>
+            <br>
+        </div>
+    </div>
+
+    <script>
+        var total = document.querySelectorAll("#price")
+        var array = []
+
+        for (let index = 0; index < total.length; index++) {
+            const priceValue = (total[index].innerHTML).replace('$', '')
+            var element = array.push(Number(priceValue));
+
+        }
+
+        console.log(array.reduce((a, b) => a + b,))
+        document.getElementById("total_td").innerHTML = "Total price : $" + array.reduce((a, b) => a + b,).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+    </script>
+
+    <%- include("../../layout/footer") -%>

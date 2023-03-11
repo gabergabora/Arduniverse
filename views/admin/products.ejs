@@ -1,0 +1,113 @@
+<%- include("../layout/admin-navbar") -%>
+
+<% if(edit == true){%>
+    <script type="text/javascript">
+        Swal.fire({
+            title: 'Edit <%= data.name%>',
+            html: `<form action="/admin/product/edit/<%= data.id%>?_method=PUT" method="post" enctype="multipart/form-data">
+                <input required style="width: 350px;"  type="text" name="name" value="<%= data.name%>"placeholder="Product Name">
+                <br><br>
+                <input style="width: 350px;"  type="number" name="price" value="<%= data.price%>"placeholder="Price" required> 
+                <br><br>
+                <input style="width: 350px;"  type="text" name="proText" value="<%= data.proText%>" placeholder="Promotional Text" required> 
+                <br><br><textarea style="width: 350px;"  name="des" id="" cols="30" rows="10" placeholder="Description"><%= data.des%></textarea>
+                <br><br> 
+                <select name="category" style="width: 350px;" required>
+                    <option><%= data.category%></option>
+                    <% category.forEach(cat => {%>
+                        <option><%= cat.name%></option>
+                        <%}) %>
+                        </select>
+                         <br><br> 
+                         <input style="width:350px" name="image" type="file"> 
+                         <br><br>
+                         <button class="btn btn-success">Confirm</button> </form>`,
+            confirmButtonText: 'Cancel',
+        })
+    </script>
+    <% edit = false %>
+<%} %>
+
+    <% if(suc.length> 0){%>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Added',
+                text: 'Product added successfully you can see it now on the table'
+            })
+        </script>
+        <%} %>
+
+        <% if(del.length> 0){%>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Deleted',
+                    text: 'Product deleted successfully'
+                })
+            </script>
+            <%} %>
+
+            <% if(edit_suc.length> 0){%>
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product updated',
+                        text: 'Product information successfully updated'
+                    })
+                </script>
+                <%} %>
+
+            <% if(err.length> 0){%>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Name invalid ',
+                        text: 'This name is already been used by another product'
+                    })
+                </script>
+                <%} %>
+
+                    <div class="products">
+                        <p class="title">Products</p>
+                        <div class="container">
+                            <button class="show-add" onclick="openAlert()">
+                                <ion-icon name="add" class="category-icon"></ion-icon>
+                            </button>
+                            <table class="table table-hover">
+                                <tr class="first">
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <% products.forEach(data=>{%>
+                                    <tr>
+                                        <td>
+                                            <%= data.name%>
+                                        </td>
+                                        <td>
+                                            <%= data.category%>
+                                        </td>
+                                        <td><button class="edit" onclick="window.location.href='/admin/product/edit/<%= data.id%>'">
+                                            <ion-icon class="icon" name="pencil"></ion-icon>
+                                        </button></td>
+                                        <td><form action="/admin/product/delete/<%= data.id%>?_method=DELETE"
+                                            method="post"><button class="delete">
+                                                <ion-icon class="icon" name="trash"></ion-icon>
+                                            </button></form></td>
+                                    </tr>
+                                    <%}) %>
+                            </table>
+                        </div>
+                        <script>
+                            function openAlert() {
+                                Swal.fire({
+                                    title: 'Add Product',
+                                    html: '<form action="/admin/product/add" method="post" enctype="multipart/form-data"><input required style="width: 350px;"  type="text" name="name" placeholder="Product Name"><br><br><input style="width: 350px;"  type="number" name="price" placeholder="Price" required> <br><br><input style="width: 350px;"  type="text" name="proText" placeholder="Promotional Text" required> <br><br><textarea style="width: 350px;"  name="des" id="" cols="30" rows="10" placeholder="Description"></textarea><br><br> <select name="category" style="width: 350px;" required><% category.forEach(data => {%><option><%= data.name%></option><%}) %></select> <br><br> <input style="width:350px" name="image" type="file"> <br><br><button class="btn btn-success">Confirm</button> </form>',
+                                    confirmButtonText: 'Cancel',
+                                })
+                            }
+                        </script>
+                    </div>
+                    <%- include("../layout/footer") -%>

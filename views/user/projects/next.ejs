@@ -1,0 +1,71 @@
+<%- include("../../layout/navbar") -%>
+
+    <div class="next-project container">
+        <form action="/projects/next/<%= data.sipher%>?_method=PUT" method="post" enctype="multipart/form-data">
+            <div class="container">
+                <div class="card text-black">
+                    <img class="card-img" src="/upload/images/<%= data.projectImage%>" alt="Card image">
+                    <div class="card-img-overlay">
+                      <h5 class="card-title"><%= data.title%></h5>
+                      <p class="card-text"><%= data.username%></p>
+                      <p class="card-text"><%= data.Date%></p>
+                    </div>
+                  </div>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput1"><span id="des1Counter">1500</span>/1500</label>
+                <textarea required placeholder="Description (required)" class="form-control" id="des1" onkeyup="des1CounterDown()"
+                    id="exampleFormControlTextarea1" name="des" rows="13"></textarea>
+            </div>
+        
+            <div class="form-group">
+                <label for="exampleFormControlInput1"><span id="codeCounter">5000</span>/5000</label>
+                <textarea required placeholder="Code (required)" id="code" onkeyup="codeCounterDown()"
+                     name="code" class="form-control" rows="13"></textarea>
+            </div>
+
+
+                <div class="form-group">
+                <label for="exampleFormControlInput1">Images , You can only put 3 images (optional)</label>
+                    <input type="file" id="fileInput" class="form-control" name="images" accept="image/jpeg,image/png" multiple>
+            </div>
+            
+           <center>
+            <button class="btn btn-primary" type="submit">Next</button>
+           </center>
+           <br>
+           <br>
+           <br>
+
+        </form>
+    </div>
+
+    <script>
+        function des1CounterDown() {
+            var num = document.getElementById("des1Counter")
+            var name = document.getElementById("des1")
+            fixer = 1500 - name.value.length;
+            num.innerText = fixer
+            if (fixer < 0) {
+                num.style.color = "red";
+            } else {
+                num.style.color = "black";
+            }
+        }
+
+        function codeCounterDown() {
+            var num = document.getElementById("codeCounter")
+            var name = document.getElementById("code")
+            fixer = 5000 - name.value.length;
+            num.innerText = fixer
+            if (fixer < 0) {
+                num.style.color = "red";
+            } else {
+                num.style.color = "black";
+            }
+        }
+        
+    </script>
+    <%- include("../../layout/footer") -%>

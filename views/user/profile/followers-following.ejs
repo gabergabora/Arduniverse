@@ -1,0 +1,75 @@
+<%- include("../../layout/navbar") -%>
+<div class="followers-page container">
+    <br>
+    <% if(type == "followers"){%>
+        <% followersData.forEach(data => {%>
+            <div class="follower-card" onclick="window.location.href='/profile/get/<%= data.username%>'">
+                <div class="follower-card-info">
+                    <% if(data.profileImage == "none"){%>
+                        <img src="/images/none.png">
+                    <%} else {%>
+                        <img src="/upload/images/<%= data.profileImage%>" alt="">
+                        <%} %>
+    
+                        <div class="follower-info">
+                            <p><%= data.name%></p>
+                            <p><%= data.username%></p>
+                        </div>
+                        
+                        <div class="follower-status">
+                            <div class="under">
+                                <p class="num"><%= data.followers.length%></p>
+                                <p class="num-des">Followers</p>
+                            </div>
+                            <div class="under">
+                                <p class="num"><%= data.following.length%></p>
+                                <p class="num-des">Following</p>
+                            </div>
+                            <div class="under">
+                                <p class="num"><%= data.posts.length%></p>
+                                <p class="num-des">Posts</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        <%}) %>
+        <%} %>
+
+        <% if(type == "following"){%>
+            <% followingData.forEach(data => {%>
+                <div class="follower-card" onclick="window.location.href='/profile/get/<%= data.username%>'">
+                    <div class="follower-card-info">
+                        <% if(data.profileImage == "none"){%>
+                            <img src="/images/none.png">
+                        <%} else {%>
+                            <img src="/upload/images/<%= data.profileImage%>" alt="">
+                            <%} %>
+        
+                            <div class="follower-info">
+                                <p><%= data.name%></p>
+                                <p><%= data.username%></p>
+                            </div>
+                            
+                            <div class="follower-status">
+                                <div class="under">
+                                    <p class="num"><%= data.followers.length%></p>
+                                    <p class="num-des">Followers</p>
+                                </div>
+                                <div class="under">
+                                    <p class="num"><%= data.following.length%></p>
+                                    <p class="num-des">Following</p>
+                                </div>
+                                <div class="under">
+                                    <p class="num"><%= data.posts.length%></p>
+                                    <p class="num-des">Posts</p>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            <%}) %>
+        <%} %>
+    <br>
+</div>
+<br>
+<br>
+<%- include("../../layout/footer") -%>

@@ -1,0 +1,97 @@
+<%- include("../layout/admin-navbar") -%>
+
+<% if(edit == true){%>
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Edit <%= cat.name%>',
+            html: '<form action="/admin/category/edit/<%= cat.name%>?_method=PUT" method="post"> <input required type="text" name="name" value="<%= cat.name%>"placeholder="Category name"><br><br> <button class="btn btn-primary">Confirm</button> </form>',
+            confirmButtonText: 'Cancel',
+        })
+    </script>
+<%} %>
+
+    <% if(suc.length> 0){%>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Category Added',
+                text: 'Category Added successfully you can see it on the table now',
+            })
+        </script>
+        <%} %>
+
+        <% if(update.length> 0){%>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Category Updated',
+                    text: 'Category updated successfully',
+                })
+            </script>
+            <%} %>
+
+            <% if(err.length> 0){%>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Name invalid',
+                        text: 'This name is already been used by another category',
+                    })
+                </script>
+                <%} %>
+
+                    <% if(del.length> 0){%>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Category Deleted',
+                                text: 'Category deleted successfully',
+                            })
+                        </script>
+                        <%} %>
+                            <div class="category">
+                                <div class="container">
+                                    <p class="title">Categories</p>
+                                    <button class="show-add" onclick="openAlert()">
+                                        <ion-icon name="add" class="category-icon"></ion-icon>
+                                    </button>
+                                    <table class="table table-hover">
+                                        <tr class="first">
+                                            <th>Name</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+
+                                        <% category.forEach(data=> {%>
+                                            <tr>
+                                                <td>
+                                                    <%= data.name%>
+                                                </td>
+                                                <td><button class="edit" onclick="window.location.href='/admin/category/edit/<%= data.name%>'">
+                                                        <ion-icon class="icon" name="pencil"></ion-icon>
+                                                    </button></td>
+                                                <td>
+                                                    <form action="/admin/category/delete/<%= data.id%>?_method=DELETE"
+                                                        method="post"><button class="delete">
+                                                            <ion-icon class="icon" name="trash"></ion-icon>
+                                                        </button></form>
+                                                </td>
+                                            </tr>
+                                            <%}) %>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <script>
+                                function openAlert() {
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Add Category',
+                                        html: '<form action="/admin/category/add" method="post"> <input required type="text" name="name" placeholder="Category name"><br><br> <button class="btn btn-primary">Confirm</button> </form>',
+                                        confirmButtonText: 'Cancel',
+                                    })
+                                }
+                            </script>
+
+                            <%- include("../layout/footer") -%>

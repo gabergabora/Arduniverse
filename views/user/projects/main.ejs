@@ -1,0 +1,126 @@
+<%- include("../../layout/navbar") -%>
+
+    <% if(login.length> 0){%>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Login require',
+                text: 'You must be login to add post'
+            })
+        </script>
+        <%} %>
+
+        <% if(err.length> 0){%>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Project not found',
+                })
+            </script>
+            <%} %>
+
+        <button class="add-project-btn" onclick="window.location.href='/projects/add'">Add Project</button>
+            <p class="page-title-general">Projects</p>
+            <form class="explore-search" autocomplete="off" action="/projects/search" method="post">
+                <div class="autocomplete" style="width:300px;">
+                  <input id="myInput" type="text" name="name" placeholder="Project">
+                </div>
+                <button>Search</button>
+              </form>
+              <br>
+              <br>
+            <div class="profile-posts project-main conatiner">
+                
+                <% projects.forEach(data=> {%>
+                    <div id="items" class="card text-black" onclick="window.location.href='/projects/get/<%= data.id%>'">
+                        <img class="card-img" src="/upload/images/<%= data.projectImage%>" alt="Card image">
+                        <div class="status">
+                            <p class="likes"><ion-icon class="icon" name="heart"></ion-icon> <%= data.likes.length%></p>
+                        </div>
+                        <div class="card-img-overlay">
+                            <h5 class="card-title">
+                                <%= data.title%>
+                            </h5>
+                            <p class="card-text card-des">
+                                <%= data.des%>
+                            </p>
+                            <p class="card-text">
+                                <%= data.Date%>
+                            </p>
+                        </div>
+                    </div>
+                    <%}) %>
+            </div>
+
+            <script>
+                function autocomplete(inp, arr) {
+                  var currentFocus;
+                  inp.addEventListener("input", function(e) {
+                      var a, b, i, val = this.value;
+                      closeAllLists();
+                      if (!val) { return false;}
+                      currentFocus = -1;
+                      a = document.createElement("DIV");
+                      a.setAttribute("id", this.id + "autocomplete-list");
+                      a.setAttribute("class", "autocomplete-items");
+                      this.parentNode.appendChild(a);
+                      for (i = 0; i < arr.length; i++) {
+                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                          b = document.createElement("DIV");
+                          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                          b.innerHTML += arr[i].substr(val.length);
+                          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                          b.addEventListener("click", function(e) {
+                              inp.value = this.getElementsByTagName("input")[0].value;
+                              closeAllLists();
+                          });
+                          a.appendChild(b);
+                        }
+                      }
+                  });
+                  inp.addEventListener("keydown", function(e) {
+                      var x = document.getElementById(this.id + "autocomplete-list");
+                      if (x) x = x.getElementsByTagName("div");
+                      if (e.keyCode == 40) {
+                        currentFocus++;
+                        addActive(x);
+                      } else if (e.keyCode == 38) {
+                        currentFocus--;
+                        addActive(x);
+                      } else if (e.keyCode == 13) {
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                          if (x) x[currentFocus].click();
+                        }
+                      }
+                  });
+                  function addActive(x) {
+                    if (!x) return false;
+                    removeActive(x);
+                    if (currentFocus >= x.length) currentFocus = 0;
+                    if (currentFocus < 0) currentFocus = (x.length - 1);
+                    x[currentFocus].classList.add("autocomplete-active");
+                  }
+                  function removeActive(x) {
+                    for (var i = 0; i < x.length; i++) {
+                      x[i].classList.remove("autocomplete-active");
+                    }
+                  }
+                  function closeAllLists(elmnt) {
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                      if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                      }
+                    }
+                  }
+                  document.addEventListener("click", function (e) {
+                      closeAllLists(e.target);
+                  });
+                }
+                
+                var projects = "<%= names%>".split`,`
+                var projectsAutoComplate = projects
+                autocomplete(document.getElementById("myInput"), projectsAutoComplate);
+                </script>
+            <%- include("../../layout/footer") -%>

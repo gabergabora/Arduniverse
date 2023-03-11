@@ -1,0 +1,59 @@
+<%- include("../layout/navbar") -%>
+
+    <% if(err.length> 0) {%>
+        <script>
+            Swal.fire(
+                'User not found !',
+                'Try again',
+                'error'
+            )
+        </script>
+        <%}%>
+
+        <% if(forget.length> 0) {%>
+            <script>
+                Swal.fire(
+                    'Email Sent',
+                    'We sent you an email to reset your password',
+                    'success'
+                )
+            </script>
+            <%}%>
+
+            <% if(reset.length> 0) {%>
+                <script>
+                    Swal.fire(
+                        'Password Changed',
+                        'You updated your password successfully, you can login now',
+                        'success'
+                    )
+                </script>
+                <%}%>
+            <div class="login">
+                <div class="panel">
+                    <p class="title">Login</p>
+                    <form action="/api/login" method="post">
+                        <input required type="email" name="email" placeholder="Email">
+                        <input required type="password" name="password" placeholder="Password">
+                        <small onclick="forget()">Forget passowrd ?</small>
+                        <br>
+                        <br>
+                        <br>
+                        <button>Submit</button>
+                        <br>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function forget() {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Forget your password ?',
+                        text: 'Enter your email',
+                        html: '<form action="/api/forget" method="post"> <input required type="email" name="email" placeholder="Enter your email"><br><br> <button class="btn btn-primary">Confirm</button> </form>',
+                        confirmButtonText: 'Cancel',
+                    })
+                }
+            </script>
+            <%- include("../layout/footer") -%>

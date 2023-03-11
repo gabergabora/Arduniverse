@@ -1,0 +1,82 @@
+<%- include("../../layout/navbar") -%>
+
+<% if(cart.length> 0){%>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Done',
+            text: 'We got your order so we will review it as soon as possobil , you can check it on your profile'
+        })
+    </script>
+<%} %>
+
+<div class="profile">
+    <div class="des-page">
+        <div class="info container">
+            <% if(user.profileImage == "none"){%>
+                <img src="/images/none.png" alt="" class="icon">
+            <%} else {%>
+                <img src="/upload/images/<%= user.profileImage%>" alt="" class="icon">
+            <%} %>
+            <div class="status">
+                <div class="under">
+                    <p class="num"><%= user.posts.length%></p>
+                    <p>Posts</p>
+                </div>
+                <div class="under" onclick="window.location.href='/system/followers/<%= user.username%>'">
+                    <p class="num"><%= user.followers.length%></p>
+                    <p>Followers</p>
+                </div>
+                <div class="under">
+                    <p class="num"><%= user.following.length%></p>
+                    <p>Following</p>
+                </div>
+    
+            </div>
+            <div class="about">
+                <p class="username"><%= user.username %></p>
+                <p class="name"><%= user.name %></p>
+                <p class="bio"><%= user.bio %></p>
+            </div>
+        </div>
+    </div>
+    <div class="contorls">
+        <a class="btn"  href="/profile">Posts</a>
+        <a class="btn" href="/profile/orders">Orders</a>
+        <a class="btn"  href="/profile/edit/<%= user.id%>">Edit Profile</a>
+    </div>
+</div>
+
+<% if(type == "orders"){%>
+    <div class="profile-orders container">
+        <div class="cards">
+            <% orders.forEach(data=> {%>
+                <div class="card-order" onclick="window.location.href='/order/get/<%= data.id%>'">
+                        <% if(data.isReview == true){%>
+                            <span class="bg-primary">In Review</span>
+                        <%} %>
+
+                        <% if(data.isAccept == true){%>
+                            <span class="bg-success">Accepted</span>
+                        <%} %>
+
+                        <% if(data.isReject == true){%>
+                            <span class="bg-danger">Rejected</span>
+                        <%} %>
+                    <div class="card-content">
+                        <p class="icon">
+                            <ion-icon name="folder"></ion-icon>
+                        </p>
+                        <div class="card-des">
+                            <p><%= data.name%></p>
+                            <p><%= data.Date%></p>
+                            <p><%= data.phone%></p>
+                        </div>
+                    </div>
+                </div>
+                <%}) %>
+        </div>
+</div>
+<%} %>
+
+    <%- include("../../layout/footer") -%>

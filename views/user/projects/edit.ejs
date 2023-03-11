@@ -1,0 +1,36 @@
+<%- include("../../layout/navbar") -%>
+
+    <div class="edit-project container">
+        <form action="/projects/edit/project/<%= data.id%>?_method=PUT" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Title</label>
+                <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Title" value="<%= data.title%>" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Description" required><%= data.des%></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Code</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Code" required><%= data.code%></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Project Image - <img class="project-image" src="/upload/images/<%= data.projectImage%>" alt=""></label>
+                <input type="file" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Images - <div class="images">
+                    <% data.images.forEach(image => {%>
+                        <img class="project-image" src="/upload/images/<%= image%>">
+                    <%}) %>
+                </div></label>
+                <input type="file" class="form-control" id="exampleFormControlInput1" multiple>
+            </div>
+            <center><button class="btn btn-success">Confirm Edit</button></center>
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <%- include("../../layout/footer") -%>

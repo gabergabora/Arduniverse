@@ -1,0 +1,74 @@
+<%- include("../../layout/navbar") -%>
+
+<div class="profile">
+        <div class="des-page">
+            <div class="info container">
+                <% if(profileData.profileImage == "none"){%>
+                    <img src="/images/none.png" alt="" class="icon">
+                <%} else {%>
+                    <img src="/upload/images/<%= profileData.profileImage%>" alt="" class="icon">
+                <%} %>
+                <div class="status">
+                    <div class="under">
+                        <p class="num"><%= profileData.posts.length%></p>
+                        <p>Posts</p>
+                    </div>
+                    <div class="under" onclick="window.location.href='/system/followers/<%= profileData.username%>'">
+                        <p class="num"><%= profileData.followers.length%></p>
+                        <p>Followers</p>
+                    </div>
+                    <div class="under" onclick="window.location.href='/system/following/<%= profileData.username%>'">
+                        <p class="num"><%= profileData.following.length%></p>
+                        <p>Following</p>
+                    </div>
+        
+                </div>
+                <div class="about">
+                    <p class="username"><%= profileData.username %></p>
+                    <p class="name"><%= profileData.name %></p>
+                    <p class="bio"><%= profileData.bio %></p>
+                </div>
+            </div>
+        </div>
+        <div class="contorls">
+            <% if(user){%>
+                <% if(profileData.username == user.username){%>
+                    <a class="btn"  href="/profile">Posts</a>
+                <a class="btn" href="/profile/orders">Orders</a>
+                <a class="btn"  href="/profile/edit/<%= user.id%>">Edit Profile</a>
+                <%} else {%>
+                    <% if(filter == false){%>
+                        <form action="/system/follow/<%= profileData.id%>?_method=PUT" method="post">
+                            <button class="follow-btn hvr-radial-out">Follow</button>
+                        </form>
+                    <%} %>
+
+                    <% if(filter == true){%>
+                        <form action="/system/unfollow/<%= profileData.id%>?_method=PUT" method="post">
+                            <button class="follow-btn hvr-radial-out">Unfollow</button>
+                        </form>
+                    <%} %>
+                    <%}%>
+            <%} %>
+        </div>
+
+            <div class="profile-posts conatiner">
+                <% projects.forEach(data => {%>
+                    <div class="card text-black" onclick="window.location.href='/projects/get/<%= data.id%>'">
+                        <img class="card-img" src="/upload/images/<%= data.projectImage%>" alt="Card image">
+                        <div class="status">
+                            <p class="likes"><ion-icon class="icon" name="heart"></ion-icon> <%= data.likes.length%></p>
+                        </div>
+                        <div class="card-img-overlay">
+                          <h5 class="card-title"><%= data.title%></h5>
+                          <p class="card-text card-des"><%= data.des%></p>
+                          <p class="card-text"><%= data.Date%></p>
+                        </div>
+                      </div>
+                <%}) %>
+                <br>
+            </div>
+            <br>
+</div>
+
+<%- include("../../layout/footer") -%>

@@ -1,0 +1,473 @@
+<%- include("../../layout/navbar") -%>
+
+    <div class="project-get">
+        <% if(user){%>
+            <% if(user.username==data.username){%>
+                <button class="btn btn-danger delete-btn" onclick="deletePost()">Delete</button>
+                <br>
+                <%} %>
+        <%} %>
+                <section class="about container">
+                    <div class="info-card only-pc" onclick="window.location.href='/profile/get/<%= author.username%>'">
+                        <% if(author.profileImage=="none" ){%>
+                            <div class="image">
+                                <img src="/images/none.png" alt="profile image">
+                                <p class="username">
+                                    <%=author.username%>
+                                </p>
+                            </div>
+                            <div class="info">
+                                <p class="followers">
+                                    <%= author.followers.length%> Followers
+                                </p>
+                                <p class="projects">
+                                    <%= projects.length%> Projects
+                                </p>
+                            </div>
+                            <%} else {%>
+                                <div class="image">
+                                    <img src="/upload/images/<%= author.profileImage%>" alt="profile image">
+                                    <p class="username">
+                                        <%=author.username%>
+                                    </p>
+                                </div>
+                                <div class="info">
+                                    <p class="followers">
+                                        <%= author.followers.length%> Followers
+                                    </p>
+                                    <p class="projects">
+                                        <%= projects.length%> Projects
+                                    </p>
+                                </div>
+                                <%} %>
+
+                    </div>
+
+                    <% if(projects.length> 1){%>
+                        <div class="projects-table ">
+                            <table class="table table-hover only-pc">
+                                <thead>
+                                    <th>More projects made by <%= author.username%>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <% projects.forEach(project=> {%>
+                                        <tr>
+                                            <td onclick="window.location.href='/projects/get/<%= project.id%>'"><img
+                                                    src="/upload/images/<%= project.projectImage%>" alt="project image">
+                                                <%= project.title%>
+                                            </td>
+                                        </tr>
+                                        <%}) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%} %>
+
+                            <div class="tools">
+                                <center>
+                                    <%if(user){%>
+                                        <% if(like==false){%>
+                                            <form id="like-porject">
+                                                <button class="like-btn btn" id="like-btn" type="submit"><ion-icon
+                                                        name="heart-outline" class="icon"></ion-icon><span
+                                                        id="like-number">
+                                                        <%= data.likes.length%>
+                                                    </span></button>
+                                            </form>
+                                            <%} %>
+
+                                                <% if(like==true){%>
+                                                    <form id="remove-like">
+                                                        <button id="remove-like-btn" class="like-btn btn"><ion-icon
+                                                                name="heart" class="icon"></ion-icon>
+                                                            <span id="like-number-remove">
+                                                                <%= data.likes.length%>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                    <%} %>
+                                                        <%} else {%>
+                                                            <button onclick="likeError()" class="like-btn btn"><ion-icon
+                                                                    name="heart-outline" class="icon"></ion-icon>
+                                                                <%= data.likes.length%>
+                                                            </button>
+                                                            <%}%>
+                                </center>
+                            </div>
+                </section>
+
+                <section class="project-info">
+                    <header>
+                        <p class="title">
+                            <%= data.title%>
+                        </p>
+                        <center>
+                            <img src="/upload/images/<%= data.projectImage%>" alt="project image">
+                        </center>
+                    </header>
+                    <p class="title">About : </p>
+                    <p class="des">
+                        <%= data.des%>
+                    </p>
+                    <div class="images">
+                        <center>
+                            <% data.images.forEach(image=> {%>
+                                <img src="/upload/images/<%= image%>" alt="project images">
+                                <%}) %>
+                        </center>
+                    </div>
+
+                    <p class="title">Code:</p>
+                    <div class="code">
+                        <pre>
+                  <code class="language-javascript">
+                    <%= data.code%>
+                </code>
+               </pre>
+                    </div>
+                </section>
+
+                <section class="about container only-mobile">
+                    <div class="info-card" onclick="window.location.href='/profile/get/<%= author.username%>'">
+                        <% if(author.profileImage=="none" ){%>
+                            <div class="image">
+                                <img src="/images/none.png" alt="profile image">
+                                <p class="username">
+                                    <%=author.username%>
+                                </p>
+                            </div>
+                            <div class="info">
+                                <p class="followers">
+                                    <%= author.followers.length%> Followers
+                                </p>
+                                <p class="projects">
+                                    <%= projects.length%> Projects
+                                </p>
+                            </div>
+                            <center>
+                                <button class="follow-btn">FOLLOW</button>
+                            </center>
+                            <%} else {%>
+                                <div class="image">
+                                    <img src="/upload/images/<%= author.profileImage%>" alt="profile image">
+                                    <p class="username">
+                                        <%=author.username%>
+                                    </p>
+                                </div>
+                                <div class="info">
+                                    <p class="followers">
+                                        <%= author.followers.length%> Followers
+                                    </p>
+                                    <p class="projects">
+                                        <%= projects.length%> Projects
+                                    </p>
+                                </div>
+                                <%} %>
+
+                    </div>
+
+                    <% if(projects.length> 1){%>
+                        <div class="projects-table">
+                            <table class="table table-hover">
+                                <thead>
+                                    <th>More projects made by <%= author.username%>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <% projects.forEach(project=> {%>
+                                        <tr>
+                                            <td onclick="window.location.href='/projects/get/<%= project.id%>'"><img
+                                                    src="/upload/images/<%= project.projectImage%>" alt="project image">
+                                                <%= project.title%>
+                                            </td>
+                                        </tr>
+                                        <%}) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%} %>
+                </section>
+
+                <section class="comments">
+                    <% if(user){%>
+                        <div class="comment-input">
+                            <form id="form">
+                                <div class="comment-info">
+                                    <% if(user.profileImage=="none" ){%>
+                                        <img src="/images/none.png" alt="user image">
+                                        <%} else {%>
+                                            <img src="/upload/images/<%=user.profileImage%>" alt="user image">
+                                            <%} %>
+                                                <div class="user-info">
+                                                    <p class="name">
+                                                        <%= user.username%>
+                                                    </p>
+                                                    <p class="date">
+                                                        <%= user.name%>
+                                                    </p>
+                                                </div>
+                                </div>
+                                <textarea name="comment" id="comment-input" rows="5"></textarea>
+                                <br>
+                                <center>
+                                    <button class="btn btn-primary">Post</button>
+                                </center>
+                            </form>
+                        </div>
+                        <%} %>
+                        <% if(user){%>
+                            <div class="after-post" id="after-post">
+                                <div class="comment-info">
+                                    <% if(user.profileImage=='none' ){%>
+                                        <img src="/images/none.png" alt="user image">
+                                        <%} else {%>
+                                            <img src="/upload/images/<%= user.profileImage%>" alt="user image">
+                                            <%} %>
+                                                <div class="user-info">
+                                                    <p class="name">
+                                                        <%= user.username%>
+                                                    </p>
+                                                    <p class="date">
+                                                        <%= NowDate%>
+                                                    </p>
+                                                </div>
+                                </div>
+                                <%} %>
+                                <div class="comment">
+                                    <p id="comment"></p>
+                                </div>
+                                <br>
+                            </div>
+                            <% for (let i=0; i < data.comments.length; i++) {%>
+                                <div class="comment-info" id="<%= data.comments[i].commentID%>">
+                                    <% if(usersData[i].profileImage=='none' ){%>
+                                        <img src="/images/none.png" alt="user image">
+                                        <%} else {%>
+                                            <img src="/upload/images/<%= usersData[i].profileImage%>" alt="user image">
+                                            <%} %>
+                                                <div class="user-info" id="<%= data.comments[i].commentID%>">
+                                                    <p class="name">
+                                                        <%= usersData[i].username%>
+                                                    </p>
+                                                    <p class="date">
+                                                        <%= data.comments[i].Date%>
+                                                    </p>
+                                                </div>
+                                </div>
+                                <div class="comment" id="<%= data.comments[i].commentID%>">
+                                    <p id="<%= data.comments[i].commentID%>">
+                                        <%= data.comments[i].comment%>
+                                    </p>
+                                    <div class="comment-tools" id="<%= data.comments[i].commentID%>">
+                                        <form id="form-<%= i+1%>" class="likes-form"
+                                            action="/projects/comments/like/<%= data.id%>/<%= data.comments[i].commentID%>?_method=PUT"
+                                            method="POST">
+                                            <button class="likes" id="comment-like-btn">
+                                                <span id="comment-like-number-<%= i%>">
+                                                    <%= data.comments[i].likes.length%>
+                                                </span> Likes
+                                            </button>
+                                        </form>
+                                        <% if(user){%>
+                                            <% if(user.id==data.comments[i].id){%>
+                                                <form class="delete-comment-form" id="delete-comment-form-<%= i%>"
+                                                    action="/projects/comment/delete/<%= data.id%>/<%= data.comments[i].commentID%>/<%= data.comments[i].id%>?_method=PUT"
+                                                    method="post">
+                                                    <button class="delete"
+                                                        onclick="document.getElementById('<%= data.comments[i].commentID%>').style.display = 'none'; document.getElementById('<%= data.comments[i].commentID%>').innerHTML = ' '">Delete</button>
+                                                </form>
+                                                <%} %>
+                                                    <%} %>
+                                    </div>
+                                </div>
+                                <br>
+                                <%} %>
+                </section>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        $('.delete-comment-form').submit(function (event) {
+            event.preventDefault();
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (response) {
+                    $(this).find('span').text(`num`)
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        let likeCounter = 0
+        $('.likes-form').submit(function (event) {
+            event.preventDefault();
+
+            likeCounter++;
+
+            if (likeCounter % 2 !== 0) {
+                const num = Number($(this).find('span').text()) + 1
+                console.log(num);
+                $(this).find('span').text(num)
+            } else {
+                const num = Number($(this).find('span').text()) - 1
+                console.log(num);
+                $(this).find('span').text(num)
+            }
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (response) {
+                    $(this).find('span').text(`num`)
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        function likeError() {
+            Swal.fire({
+                icon: "error",
+                title: "You must be login",
+                text: "You can't like or comment on any post until you login"
+            })
+        }
+    </script>
+
+    <script>
+        $('#form').submit(function (event) {
+            event.preventDefault();
+            const value = $('textarea[name=comment]').val();
+
+            if (value == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Comment is empty",
+                    text: "You cant post an empty comment"
+                })
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/projects/comment/primary/<%= data.id%>?_method=PUT',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        document.getElementById('after-post').style.display = "block"
+                        document.getElementById('comment').innerText = value
+                        $('textarea[name=comment]').val(" ")
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        })
+
+    </script>
+
+    <script>
+        let clickCounter = 0;
+        $('#like-porject').submit(function (event) {
+            clickCounter++;
+
+            let url = '/projects/remove-like/<%= data.id%>?_method=PUT';
+            let successResponse = function (response) {
+                Number((document.getElementById("like-number").innerText))
+                var like_number = Number((document.getElementById("like-number").innerText)) - 1
+                document.getElementById('like-btn').innerHTML = `<ion-icon name="heart-outline" class="icon"></ion-icon>` + " " + `<span id="like-number">` + like_number + `</span>`
+            };
+
+            if (clickCounter % 2 !== 0) {
+                successResponse = function (response) {
+                    console.log(Number((document.getElementById("like-number").innerText)));
+                    var like_number = Number((document.getElementById("like-number").innerText)) + 1
+                    document.getElementById('like-btn').innerHTML = `<ion-icon name="heart" class="icon"></ion-icon>` + " " + `<span id="like-number">` + like_number + `</span>`
+                };
+                url = '/projects/like/<%= data.id%>?_method=PUT'
+            }
+
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: $(this).serialize(),
+                success: successResponse,
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        })
+    </script>
+
+    <script>
+        let clickCounterRemove = 0;
+        $('#remove-like').submit(function (event) {
+            clickCounterRemove++;
+            event.preventDefault();
+
+            let successResponseRemove = function (response) {
+                console.log(Number((document.getElementById("like-number-remove").innerText)));
+                var like_numberRemove = Number((document.getElementById("like-number-remove").innerText)) + 1
+                document.getElementById('remove-like-btn').innerHTML = `<ion-icon name="heart" class="icon"></ion-icon>` + " " + `<span id="like-number-remove">` + like_numberRemove + `</span>`
+            };
+            let urlRemove = '/projects/like/<%= data.id%>?_method=PUT'
+
+            if (clickCounterRemove % 2 !== 0) {
+                urlRemove = '/projects/remove-like/<%= data.id%>?_method=PUT';
+                successResponseRemove = function (response) {
+                    Number((document.getElementById("like-number-remove").innerText))
+                    var like_numberRemove = Number((document.getElementById("like-number-remove").innerText)) - 1
+                    document.getElementById('remove-like-btn').innerHTML = `<ion-icon name="heart-outline" class="icon"></ion-icon>` + " " + `<span id="like-number-remove">` + like_numberRemove + `</span>`
+                };
+            }
+
+            console.log(clickCounterRemove);
+
+            $.ajax({
+                type: 'POST',
+                url: urlRemove,
+                data: $(this).serialize(),
+                success: successResponseRemove,
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        })
+    </script>
+
+    <script>
+        function deletePost() {
+            Swal.fire({
+                icon: "warning",
+                title: "Are you sure?",
+                text: "If you delete the post there's no way to get it back",
+                html: `
+                <form action="/projects/delete/project/<%= data.id%>?_method=DELETE" method="post">
+    <button class="btn btn-danger">Delete</button>
+</form>
+                `,
+                confirmButtonText: 'Cancel',
+                confirmButtonColor: '#f0ad4e'
+            })
+        }
+    </script>
+    <%- include("../../layout/footer") -%>

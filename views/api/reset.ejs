@@ -1,0 +1,19 @@
+<%- include("../layout/navbar") -%>
+
+
+
+    <div class="login">
+        <div class="panel">
+            <p class="title">Reset Password</p>
+            <form action="/api/reset/<%= hash%>/<%= email%>?_method=PUT" method="post">
+                <input required type="email" name="email" value="<%= email%>" disabled>
+                <input required type="password" name="password" placeholder="Enter a new password">
+                <br>
+                <br>
+                <br>
+                <button>Submit</button>
+                <br>
+            </form>
+        </div>
+    </div>
+    <%- include("../layout/footer") -%>

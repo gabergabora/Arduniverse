@@ -1,0 +1,54 @@
+<%- include("../layout/navbar") -%>
+
+    <% if(checkFaild.length> 0) {%>
+        <script>
+            Swal.fire(
+                'Activation code is incorrect',
+                'Try again',
+                'error'
+            )
+        </script>
+        <%}%>
+
+        <% if(resend.length> 0) {%>
+            <script>
+                Swal.fire(
+                    'Success',
+                    'We resend the activation code to your email :D',
+                    'success'
+                )
+            </script>
+            <%}%>
+            <div class="check">
+                <div class="panel">
+                    <p class="title">Email Check</p>
+                    <form action="/api/check?_method=PUT" method="post">
+                        <div class="pharagraph">
+                            <p>We've sent you an email on <%= email%>
+                            </p>
+                            <p>that contain activation code</p>
+                        </div>
+                        <input required type="number" name="check" placeholder="Activation Code">
+                        <small id="resend" onclick="resend()">Didn't get the code?</small>
+                        <br>
+                        <br>
+                        <br>
+                        <button>Submit</button>
+                        <br>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function resend() {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Did not get a code?',
+                        text: 'Resend the code now ! :D',
+                        html: '<form action="/api/resend" method="post"> <button class="btn btn-primary"> Resend Code</button> </form>',
+                    })
+                }
+            </script>
+
+
+            <%- include("../layout/footer") -%>

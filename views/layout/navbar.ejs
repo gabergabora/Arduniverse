@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Arduino world website">
+    <link rel="icon" type="image/x-icon" href="/images/logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/hover.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <title>Arduino</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <img src="/images/logo.png" alt="uno">
+            <p class="phone-title">Arduino</p>
+            <button class="nav-responsive" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <ion-icon class="icon-nav" name="menu"></ion-icon>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <% if(user){%>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link hvr-shutter-out-vertical" aria-current="page" href="/"><ion-icon
+                                    class="icon" name="home"></ion-icon> Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hvr-shutter-out-vertical" href="/shop"><ion-icon class="icon"
+                                    name="bag-handle"></ion-icon> Shop </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hvr-shutter-out-vertical" href="/projects"><ion-icon class="icon"
+                                    name="logo-electron"></ion-icon> Porjects </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hvr-shutter-out-vertical" href="/explore"><ion-icon name="planet"></ion-icon>
+                                Explore </a>
+                        </li>
+                        <% if(user.cart.length==0 || user.cart.length < 0){%>
+                            <li class="nav-item">
+                                <a class="nav-link hvr-shutter-out-vertical" href="/cart"><ion-icon class="icon"
+                                        name="cart"></ion-icon> Cart </a>
+                            </li>
+                            <%} else {%>
+                                <li class="nav-item">
+                                    <a class="nav-link hvr-shutter-out-vertical" href="/cart"><ion-icon class="icon"
+                                            name="cart"></ion-icon> Cart <span>
+                                            <%= user.cart.length%>
+                                        </span> </a>
+                                </li>
+                                <%} %>
+                                    <li class="nav-item">
+                                        <a class="nav-link hvr-shutter-out-vertical" href="/profile"><ion-icon
+                                                class="icon" name="person"></ion-icon> Profile </a>
+                                    </li>
+                                    <% if(user.isAdmin==true){%>
+                                        <li class="nav-item">
+                                            <a class="nav-link hvr-shutter-out-vertical"
+                                                href="/admin/category"><ion-icon class="icon" name="cog"></ion-icon>
+                                                Admin Panel </a>
+                                        </li>
+                                        <%} %>
+                                            <li class="nav-item">
+                                                <a class="nav-link hvr-shutter-out-vertical"
+                                                    href="/api/logout"><ion-icon class="icon" name="log-out"></ion-icon>
+                                                    Logout </a>
+                                            </li>
+                                           <!-- <li class="nav-item notification" style="display: none">
+                                                <form id="notify">
+                                                     // if(notifications.length > 0 ){
+                                                        <button class="notifi-btn"><ion-icon class="icon" name="notifications"></ion-icon>
+                                                            <span id="notify-length">
+                                                                 notifications.length
+                                                            </span>
+                                                        </button>
+                                                   else
+                                                        <button><ion-icon class="icon" name="notifications"></ion-icon>
+                                                        </button>
+                                                    %}
+                                                </form>
+                                            </li> -->
+                    </ul>
+                    <%} else {%>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link hvr-shutter-out-vertical" href="/shop"><ion-icon class="icon"
+                                        name="bag-handle"></ion-icon> Shop </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link hvr-shutter-out-vertical" href="/projects"><ion-icon class="icon"
+                                        name="logo-electron"></ion-icon> Porjects </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link hvr-shutter-out-vertical" href="/api/register"><ion-icon class="icon"
+                                        name="person-add"></ion-icon> Register </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link hvr-shutter-out-vertical" href="/api/login"><ion-icon class="icon"
+                                        name="lock-open"></ion-icon> Login </a>
+                            </li>
+                        </ul>
+                        <%} %>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        $('#notify').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/notify/old?_method=PUT',
+                data: $(this).serialize(),
+                success: function (response) {
+                    document.getElementById("notify-length").style.display = "none"
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        })
+
+    </script>
