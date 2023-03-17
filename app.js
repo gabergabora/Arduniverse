@@ -26,7 +26,7 @@ app.use(methodOverride("_method"))
 app.use(session({
     secret: 'secret',
     cookie: { maxAge: 60000 },
-    resave: false,
+    resave: false,.      
     saveUninitialized: false
 }))
 app.use(flash());
